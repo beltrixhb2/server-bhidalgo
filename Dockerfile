@@ -1,11 +1,25 @@
-FROM golang:1.21.1
+FROM golang:latest AS build
 
-WORKDIR /app
+WORKDIR /build
 
 COPY . .
 
-RUN go build -o server .
+RUN go mod tidy
 
-EXPOSE 8080
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o server .
 
-CMD ["./main_opensky"]
+FROM alpine:latest
+
+RUN apk update && \
+    apk upgrade && \
+    apk add ca-certificates
+
+WORKDIR /app
+
+COPY --from=build /build/server .
+
+RUN chmod +x server 
+
+RUN pwd && find .
+
+CMD ["./server"]
