@@ -40,8 +40,8 @@ func main() {
 	r.PathPrefix("/").HandlerFunc(notFoundHandler).Methods(http.MethodGet)
 	r.PathPrefix("/").HandlerFunc(notAllowedHandler)
 	r.NotFoundHandler = http.HandlerFunc(notFoundHandler)
-	fmt.Printf("Server is running on :60001\n")
-	http.ListenAndServe("0.0.0.0:60001",r) 
+	fmt.Printf("Server is running on :39000\n")
+	http.ListenAndServe("0.0.0.0:39000",r) 
 }
 
 func statusHandler(w http.ResponseWriter, r *http.Request) {
